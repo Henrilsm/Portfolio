@@ -1,21 +1,88 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const WORDS = ["Messi", "Neymar", "Santa", "Sport", "Nautico"];
 
 function getRandomWord() {
   return WORDS[Math.floor(Math.random() * WORDS.length)];
 }
-
 const MAX_ATTEMPTS = 6;
 
+
+
+function renderHangman(attempts) {
+  const stages = [
+    `
+   +---+
+   |   |
+       |
+       |
+       |
+       |
+  ========`,
+    `
+   +---+
+   |   |
+  (_)  |
+       |
+       |
+       |
+  ========`,
+    `
+   +---+
+   |   |
+  (_)  |
+   |   |
+       |
+       |
+  ========`,
+    `
+   +---+
+   |   |
+  (_)  |
+  /|   |
+       |
+       |
+  ========`,
+    `
+   +---+
+   |   |
+  (_)  |
+  /|\\  |
+       |
+       |
+  ========`,
+    `
+   +---+
+   |   |
+  (_)  |
+  /|\\  |
+   /   |
+       |
+  ========`,
+    `
+   +---+
+   |   |
+  (_)  |
+  /|\\  |
+  / \\  |
+       |
+========`,
+  ];
+  return stages[attempts];
+}
+
 const Forca = () => {
-  const [word, setWord] = useState(getRandomWord());
+  const [word, setWord] = useState("");
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [attempts, setAttempts] = useState(0);
   const [input, setInput] = useState("");
   const [gameOver, setGameOver] = useState(false);
+
+  useEffect(() => {
+    setWord(getRandomWord());
+  }, []);
 
   const maskedWord = word
     .split("")
@@ -35,15 +102,16 @@ const Forca = () => {
 
     setGuessedLetters([...guessedLetters, guess]);
 
-    if (!word.includes(guess)) {
+    if (!word.toLowerCase().includes(guess)) {
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
       if (newAttempts >= MAX_ATTEMPTS) setGameOver(true);
     } else if (
-         word
+     word
+      .toLowerCase()
       .split("")
-      .every((l) => guessedLetters.includes(l.toLowerCase()) || l.toLowerCase() === guess)
-    ) {
+      .every((l) => guessedLetters.includes(l) || l === guess)
+      ) {
       setGameOver(true);
     }
   };
@@ -59,6 +127,9 @@ const Forca = () => {
   return (
     <div style={{ textAlign: "center" }}>
       <h2>Jogo da Forca</h2>
+      <pre>
+        {renderHangman(attempts)}
+      </pre>
       <p>Palavra: {maskedWord}</p>
       <p>Tentativas Restantes: {MAX_ATTEMPTS - attempts}</p>
       <form onSubmit={handleGuess}>
@@ -70,18 +141,20 @@ const Forca = () => {
           onChange={(e) => setInput(e.target.value.replace(/[^a-zA-Z]/g, ""))}
         />
         <button type="submit" disabled={gameOver || !input}>
-          Guess
+          Chutar
         </button>
       </form>
-      <p>Guessed Letters: {guessedLetters.join(", ")}</p>
+      <p>Palavras Tentadas: {guessedLetters.join(", ")}</p>
       {gameOver && (
         <div>
           <h3>
-            {word.split("").every((l) => guessedLetters.includes(l))
+            {word
+              .split("")
+              .every((l) => guessedLetters.includes(l.toLowerCase()))
               ? "Parabéns! Você ganhou!"
               : `Você perdeu! A palavra era "${word}".`}
           </h3>
-          <button onClick={handleRestart}>Restart</button>
+          <button onClick={handleRestart}>Reiniciar</button>
         </div>
       )}
     </div>

@@ -40,3 +40,15 @@ a {
     color-scheme: dark;
   }
 }
+
+pre {
+  font-family: monospace;
+  font-size: 18px;
+  line-height: 1.2;
+  white-space: pre;
+  background-color: #f4f4f4;
+  padding: 16px;
+  border-radius: 8px;
+  display: inline-block;
+  color: black;
+}
