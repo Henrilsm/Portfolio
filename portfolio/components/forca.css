@@ -1,0 +1,152 @@
+body {
+  background-color: #e6f7ff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  color: #333;
+}
+
+.forca-container {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 50px; 
+  text-align: center;
+  width: 90%;
+  max-width: 1000px;
+  transition: transform 0.3s ease;
+}
+
+.forca-container:hover {
+  transform: translateY(-5px);
+}
+
+h2 {
+  color: #0a4f6d; /* Título em azul escuro */
+  margin-bottom: 25px;
+  font-size: 2.2rem;
+}
+
+.forca-container pre {
+  font-family: 'Courier New', Courier, monospace;
+  color: #4a4a4a; /* Cor para a forca */
+  margin: 20px auto;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+.palavra-oculta {
+  font-size: 2.5rem;
+  font-weight: bold;
+  letter-spacing: 5px;
+  margin-bottom: 25px;
+  color: #040405;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: nowrap; 
+}
+
+.form-chute {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-chute input {
+  padding: 12px;
+  font-size: 1.2rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 60px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.form-chute input:focus {
+  outline: none;
+  border-color: #1a73e8;
+}
+
+.form-chute button {
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  background-color: #28a745; /* Verde para o botão de chutar */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px #1e7e34; /* Sombra para efeito 3D */
+  transition: all 0.2s ease;
+}
+
+.form-chute button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 6px #1c7430;
+}
+
+.form-chute button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px #1e7e34;
+}
+
+.form-chute button:disabled {
+  background-color: #b0b0b0;
+  box-shadow: 0 4px #8a8a8a;
+  cursor: not-allowed;
+}
+
+.letras-chutadas {
+  margin-top: 25px;
+  font-size: 1rem;
+  color: #151313;
+}
+
+.letras-chutadas span {
+  font-weight: bold;
+  color: #444;
+}
+
+.mensagem-final {
+  margin-top: 30px;
+}
+
+.mensagem-final h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.mensagem-final h3.vitoria {
+  color: #28a745; /* Verde para vitória */
+}
+
+.mensagem-final h3.derrota {
+  color: #dc3545; /* Vermelho para derrota */
+}
+
+.btn-reiniciar {
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  background-color: #17a2b8; /* Ciano para o botão de reiniciar */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px #138496;
+  transition: all 0.2s ease;
+}
+
+.btn-reiniciar:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 6px #117a8b;
+}
+
+.btn-reiniciar:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px #138496;
+}

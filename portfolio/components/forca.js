@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import "./forca.css";
 
 const WORDS = ["Messi", "Neymar", "Santa", "Sport", "Nautico"];
 
@@ -107,11 +108,11 @@ const Forca = () => {
       setAttempts(newAttempts);
       if (newAttempts >= MAX_ATTEMPTS) setGameOver(true);
     } else if (
-     word
-      .toLowerCase()
-      .split("")
-      .every((l) => guessedLetters.includes(l) || l === guess)
-      ) {
+      word
+        .toLowerCase()
+        .split("")
+        .every((l) => guessedLetters.includes(l) || l === guess)
+    ) {
       setGameOver(true);
     }
   };
@@ -125,14 +126,12 @@ const Forca = () => {
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="forca-container">
       <h2>Jogo da Forca</h2>
-      <pre>
-        {renderHangman(attempts)}
-      </pre>
-      <p>Palavra: {maskedWord}</p>
+      <pre>{renderHangman(attempts)}</pre>
+      <p className="palavra-oculta">{maskedWord}</p>
       <p>Tentativas Restantes: {MAX_ATTEMPTS - attempts}</p>
-      <form onSubmit={handleGuess}>
+      <form onSubmit={handleGuess} className="form-chute">
         <input
           type="text"
           maxLength={1}
@@ -144,17 +143,31 @@ const Forca = () => {
           Chutar
         </button>
       </form>
-      <p>Palavras Tentadas: {guessedLetters.join(", ")}</p>
+      <p className="letras-chutadas">
+        Letras Chutadas: <span>{guessedLetters.join(", ")}</span>
+      </p>
       {gameOver && (
-        <div>
-          <h3>
+        <div className="mensagem-final">
+          <h3
+            className={
+              word
+                .toLowerCase()
+                .split("")
+                .every((l) => guessedLetters.includes(l.toLowerCase()))
+                ? "vitoria"
+                : ""
+            }
+          >
             {word
+              .toLowerCase()
               .split("")
               .every((l) => guessedLetters.includes(l.toLowerCase()))
               ? "Parabéns! Você ganhou!"
               : `Você perdeu! A palavra era "${word}".`}
           </h3>
-          <button onClick={handleRestart}>Reiniciar</button>
+          <button onClick={handleRestart} className="btn-reiniciar">
+            Reiniciar
+          </button>
         </div>
       )}
     </div>
