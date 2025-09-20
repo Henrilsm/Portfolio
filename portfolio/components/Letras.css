@@ -1,0 +1,29 @@
+.letras-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.letras-botoes button {
+  width: 40px;
+  height: 40px;
+  background-color: #050404;
+  border: 1px solid #060505;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.letras-botoes button:hover:not(:disabled) {
+  background-color: #8f8e8e;
+  transform: translateY(-2px);
+}
+
+.letras-botoes button:disabled {
+  background-color: #0a0909;
+  color: #030303;
+  cursor: not-allowed;
+}

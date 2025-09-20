@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Letras from "./Letras";
 import "./forca.css";
 
 const WORDS = ["Messi", "Neymar", "Santa", "Sport", "Nautico"];
@@ -9,8 +10,6 @@ function getRandomWord() {
   return WORDS[Math.floor(Math.random() * WORDS.length)];
 }
 const MAX_ATTEMPTS = 6;
-
-
 
 function renderHangman(attempts) {
   const stages = [
@@ -92,18 +91,18 @@ const Forca = () => {
     )
     .join(" ");
 
-  const handleGuess = (e) => {
-    e.preventDefault();
-    if (gameOver || !input) return;
+  const handleGuess = (guess) => {
+    // Estas linhas foram removidas:
+    // e.preventDefault();
+    // setInput("");
+    if (gameOver || !guess) return;
 
-    const guess = input.toLowerCase();
-    setInput("");
+    // Este trecho de código foi corrigido:
+    const normalizedGuess = guess.toLowerCase();
+    if (guessedLetters.includes(normalizedGuess)) return;
+    setGuessedLetters([...guessedLetters, normalizedGuess]);
 
-    if (guessedLetters.includes(guess)) return;
-
-    setGuessedLetters([...guessedLetters, guess]);
-
-    if (!word.toLowerCase().includes(guess)) {
+    if (!word.toLowerCase().includes(normalizedGuess)) {
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
       if (newAttempts >= MAX_ATTEMPTS) setGameOver(true);
@@ -111,7 +110,7 @@ const Forca = () => {
       word
         .toLowerCase()
         .split("")
-        .every((l) => guessedLetters.includes(l) || l === guess)
+        .every((l) => guessedLetters.includes(l) || l === normalizedGuess)
     ) {
       setGameOver(true);
     }
@@ -126,23 +125,15 @@ const Forca = () => {
   };
 
   return (
-    <div className="forca-container">
+    <>
       <h2>Jogo da Forca</h2>
       <pre>{renderHangman(attempts)}</pre>
       <p className="palavra-oculta">{maskedWord}</p>
       <p>Tentativas Restantes: {MAX_ATTEMPTS - attempts}</p>
-      <form onSubmit={handleGuess} className="form-chute">
-        <input
-          type="text"
-          maxLength={1}
-          value={input}
-          disabled={gameOver}
-          onChange={(e) => setInput(e.target.value.replace(/[^a-zA-Z]/g, ""))}
-        />
-        <button type="submit" disabled={gameOver || !input}>
-          Chutar
-        </button>
-      </form>
+
+      {/* Substitua o formulário de input pelo componente de botões */}
+      <Letras onGuess={handleGuess} guessedLetters={guessedLetters} />
+
       <p className="letras-chutadas">
         Letras Chutadas: <span>{guessedLetters.join(", ")}</span>
       </p>
@@ -155,7 +146,7 @@ const Forca = () => {
                 .split("")
                 .every((l) => guessedLetters.includes(l.toLowerCase()))
                 ? "vitoria"
-                : ""
+                : "derrota"
             }
           >
             {word
@@ -170,7 +161,7 @@ const Forca = () => {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
