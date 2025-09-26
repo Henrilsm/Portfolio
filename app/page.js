@@ -19,7 +19,7 @@ export default function HomePage() {
             >
               <Github size={20} /> GitHub
             </a>
-            <a href="mailto:henrilsm@gmail.com" >
+            <a href="mailto:henrilsm@gmail.com">
               <Mail size={20} /> Email
             </a>
           </div>
@@ -35,6 +35,17 @@ export default function HomePage() {
             para aplicar minhas habilidades e contribuir para projetos
             inovadores.
           </p>
+        </section>
+
+        <section id="educacao">
+          <h2>Educação</h2>
+          <div className={styles.job}>
+            {" "}
+            <h3>Ciência da Computação</h3>
+            <p className={styles.jobInfo}>
+              Universidade Católica de Pernambuco (UNICAP) | Cursando atualmente no 5º semestre.
+            </p>
+          </div>
         </section>
 
         <section id="projetos">

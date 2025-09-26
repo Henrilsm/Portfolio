@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { palavras } from "@/lib/palavras";
-import styles from "@/components/Forca.module.css";
-import Letras from "@/components/Letras";
+import Confetti from "react-confetti";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { palavras } from "../lib/palavras";
+import styles from "./Forca.module.css";
+import Letras from "./Letras";
 
 const MAX_ERROS = 6;
 
@@ -16,14 +19,16 @@ export default function Forca() {
   const [letrasErradas, setLetrasErradas] = useState([]);
   const [jogoFinalizado, setJogoFinalizado] = useState(false);
   const [mensagem, setMensagem] = useState("");
+  const [venceu, setVenceu] = useState(false);
 
   const iniciarNovoJogo = useCallback(() => {
     const novaPalavra = selecionarPalavra();
-    setPalavra(novaPalavra.toUpperCase()); // Garante que a palavra esteja em maiúsculas
+    setPalavra(novaPalavra.toUpperCase());
     setLetrasAdivinhadas([]);
     setLetrasErradas([]);
     setJogoFinalizado(false);
     setMensagem("");
+    setVenceu(false);
   }, []);
 
   useEffect(() => {
@@ -49,14 +54,17 @@ export default function Forca() {
   useEffect(() => {
     if (palavra === "") return;
 
+    // Vitória
     const vitoria = palavra
       .split("")
       .every((letra) => letrasAdivinhadas.includes(letra));
     if (vitoria) {
       setJogoFinalizado(true);
       setMensagem("Parabéns, você venceu!");
+      setVenceu(true);
     }
 
+    // Derrota
     if (letrasErradas.length >= MAX_ERROS) {
       setJogoFinalizado(true);
       setMensagem(`Você perdeu! A palavra era: ${palavra}`);
@@ -68,10 +76,15 @@ export default function Forca() {
     .map((letra) => (letrasAdivinhadas.includes(letra) ? letra : "_"))
     .join(" ");
 
-  // 2. A VARIÁVEL 'alfabeto' E O MAPA DE BOTÕES FORAM REMOVIDOS DAQUI
-
   return (
     <div className={styles.container}>
+      {venceu && <Confetti recycle={false} />}
+
+      <Link href="/" className={styles.botaoVoltar}>
+        <ArrowLeft size={16} />
+        Voltar ao Portfólio
+      </Link>
+
       <h1 className={styles.title}>Jogo da Forca</h1>
       <div className={styles.forcaContainer}>
         <svg height="250" width="200" className={styles.forcaSvg}>
@@ -141,7 +154,6 @@ export default function Forca() {
           </button>
         </div>
       ) : (
-        // 3. SEU COMPONENTE FOI ADICIONADO AQUI
         <Letras
           onGuess={handleTentativa}
           guessedLetters={[...letrasAdivinhadas, ...letrasErradas]}

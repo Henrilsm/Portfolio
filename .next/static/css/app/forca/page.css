@@ -75,7 +75,7 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  min-height: 100px; /* Placeholder para o teclado */
+  min-height: 100px; 
 }
 
 .Forca_mensagemFinal__B08Wy p {
@@ -109,3 +109,23 @@
   position: absolute;
   bottom: 20px;
 }
+
+.Forca_botaoVoltar__9TeVJ {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--foreground);
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  font-size: 14px;
+}
+
+.Forca_botaoVoltar__9TeVJ:hover {
+  opacity: 1;
+}
+
+
+
