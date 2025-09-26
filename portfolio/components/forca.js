@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { palavras } from "@/lib/palavras";
-import styles from "./Forca.module.css";
-import Letras from "./Letras"; // 1. IMPORTE O SEU COMPONENTE
+import styles from "@/components/Forca.module.css";
+import Letras from "@/components/Letras";
 
 const MAX_ERROS = 6;
 
