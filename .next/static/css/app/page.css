@@ -1,0 +1,160 @@
+/*!***************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./app/Home.module.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************/
+/* Este arquivo é uma versão melhorada do seu page.module.css original */
+.Home_page__Wi2OG {
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+
+  display: flex;
+  justify-content: center;
+  min-height: 100svh;
+  padding: 40px 24px;
+  font-family: var(--font-geist-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  .Home_page__Wi2OG {
+    --gray-rgb: 255, 255, 255;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+  }
+}
+
+.Home_main__qh3sW {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 700px;
+  width: 100%;
+}
+
+.Home_main__qh3sW h2 {
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--gray-alpha-200);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.Home_main__qh3sW p, .Home_main__qh3sW li {
+  color: var(--foreground);
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.Home_header__wW9db {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.Home_header__wW9db h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.Home_subtitle__kbOZE {
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+.Home_socialLinks__a7NZN {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.Home_socialLinks__a7NZN a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  transition: opacity 0.2s;
+}
+
+.Home_socialLinks__a7NZN a:hover {
+  opacity: 0.7;
+}
+
+/* Projetos */
+.Home_projectGrid__AbqCq {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 16px;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .Home_projectGrid__AbqCq {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.Home_projectCard__xN2k4 {
+  background: var(--gray-alpha-100);
+  border: 1px solid var(--gray-alpha-200);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.Home_projectCard__xN2k4:hover {
+  background: var(--gray-alpha-200);
+  border-color: rgba(var(--gray-rgb), 0.2);
+}
+
+.Home_projectCard__xN2k4 h3 {
+  font-weight: 600;
+}
+
+.Home_projectLink__ZiyRZ {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: auto;
+  padding-top: 8px;
+  color: var(--foreground);
+  opacity: 0.9;
+}
+
+/* Experiência */
+.Home_job___xC85 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.Home_jobInfo__nB3u6 {
+  font-size: 14px;
+  opacity: 0.7;
+}
+.Home_job___xC85 ul {
+  list-style-position: inside;
+  padding-left: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Habilidades */
+.Home_skillsGrid__aONx3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.Home_skillsGrid__aONx3 span {
+  background: var(--gray-alpha-200);
+  font-family: var(--font-geist-mono);
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
