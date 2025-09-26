@@ -1,168 +1,157 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Letras from "./Letras";
-import "./forca.css";
+import { useState, useEffect, useCallback } from "react";
+import { palavras } from "@/lib/palavras";
+import styles from "./Forca.module.css";
+import Letras from "./Letras"; // 1. IMPORTE O SEU COMPONENTE
 
-const WORDS = ["Messi", "Neymar", "Santa", "Sport", "Nautico"];
+const MAX_ERROS = 6;
 
-function getRandomWord() {
-  return WORDS[Math.floor(Math.random() * WORDS.length)];
-}
-const MAX_ATTEMPTS = 6;
+const selecionarPalavra = () =>
+  palavras[Math.floor(Math.random() * palavras.length)];
 
-function renderHangman(attempts) {
-  const stages = [
-    `
-   +---+
-   |   |
-       |
-       |
-       |
-       |
-  ========`,
-    `
-   +---+
-   |   |
-  (_)  |
-       |
-       |
-       |
-  ========`,
-    `
-   +---+
-   |   |
-  (_)  |
-   |   |
-       |
-       |
-  ========`,
-    `
-   +---+
-   |   |
-  (_)  |
-  /|   |
-       |
-       |
-  ========`,
-    `
-   +---+
-   |   |
-  (_)  |
-  /|\\  |
-       |
-       |
-  ========`,
-    `
-   +---+
-   |   |
-  (_)  |
-  /|\\  |
-   /   |
-       |
-  ========`,
-    `
-   +---+
-   |   |
-  (_)  |
-  /|\\  |
-  / \\  |
-       |
-========`,
-  ];
-  return stages[attempts];
-}
+export default function Forca() {
+  const [palavra, setPalavra] = useState("");
+  const [letrasAdivinhadas, setLetrasAdivinhadas] = useState([]);
+  const [letrasErradas, setLetrasErradas] = useState([]);
+  const [jogoFinalizado, setJogoFinalizado] = useState(false);
+  const [mensagem, setMensagem] = useState("");
 
-const Forca = () => {
-  const [word, setWord] = useState("");
-  const [guessedLetters, setGuessedLetters] = useState([]);
-  const [attempts, setAttempts] = useState(0);
-  const [input, setInput] = useState("");
-  const [gameOver, setGameOver] = useState(false);
-
-  useEffect(() => {
-    setWord(getRandomWord());
+  const iniciarNovoJogo = useCallback(() => {
+    const novaPalavra = selecionarPalavra();
+    setPalavra(novaPalavra.toUpperCase()); // Garante que a palavra esteja em maiúsculas
+    setLetrasAdivinhadas([]);
+    setLetrasErradas([]);
+    setJogoFinalizado(false);
+    setMensagem("");
   }, []);
 
-  const maskedWord = word
-    .split("")
-    .map((letter) =>
-      guessedLetters.includes(letter.toLowerCase()) ? letter : "_"
+  useEffect(() => {
+    iniciarNovoJogo();
+  }, [iniciarNovoJogo]);
+
+  const handleTentativa = (letra) => {
+    const letraMaiuscula = letra.toUpperCase();
+    if (
+      jogoFinalizado ||
+      letrasAdivinhadas.includes(letraMaiuscula) ||
+      letrasErradas.includes(letraMaiuscula)
     )
-    .join(" ");
+      return;
 
-  const handleGuess = (guess) => {
-    // Estas linhas foram removidas:
-    // e.preventDefault();
-    // setInput("");
-    if (gameOver || !guess) return;
-
-    // Este trecho de código foi corrigido:
-    const normalizedGuess = guess.toLowerCase();
-    if (guessedLetters.includes(normalizedGuess)) return;
-    setGuessedLetters([...guessedLetters, normalizedGuess]);
-
-    if (!word.toLowerCase().includes(normalizedGuess)) {
-      const newAttempts = attempts + 1;
-      setAttempts(newAttempts);
-      if (newAttempts >= MAX_ATTEMPTS) setGameOver(true);
-    } else if (
-      word
-        .toLowerCase()
-        .split("")
-        .every((l) => guessedLetters.includes(l) || l === normalizedGuess)
-    ) {
-      setGameOver(true);
+    if (palavra.includes(letraMaiuscula)) {
+      setLetrasAdivinhadas([...letrasAdivinhadas, letraMaiuscula]);
+    } else {
+      setLetrasErradas([...letrasErradas, letraMaiuscula]);
     }
   };
 
-  const handleRestart = () => {
-    setWord(getRandomWord());
-    setGuessedLetters([]);
-    setAttempts(0);
-    setInput("");
-    setGameOver(false);
-  };
+  useEffect(() => {
+    if (palavra === "") return;
+
+    const vitoria = palavra
+      .split("")
+      .every((letra) => letrasAdivinhadas.includes(letra));
+    if (vitoria) {
+      setJogoFinalizado(true);
+      setMensagem("Parabéns, você venceu!");
+    }
+
+    if (letrasErradas.length >= MAX_ERROS) {
+      setJogoFinalizado(true);
+      setMensagem(`Você perdeu! A palavra era: ${palavra}`);
+    }
+  }, [letrasAdivinhadas, letrasErradas, palavra]);
+
+  const palavraExibida = palavra
+    .split("")
+    .map((letra) => (letrasAdivinhadas.includes(letra) ? letra : "_"))
+    .join(" ");
+
+  // 2. A VARIÁVEL 'alfabeto' E O MAPA DE BOTÕES FORAM REMOVIDOS DAQUI
 
   return (
-    <>
-      <h2>Jogo da Forca</h2>
-      <pre>{renderHangman(attempts)}</pre>
-      <p className="palavra-oculta">{maskedWord}</p>
-      <p>Tentativas Restantes: {MAX_ATTEMPTS - attempts}</p>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Jogo da Forca</h1>
+      <div className={styles.forcaContainer}>
+        <svg height="250" width="200" className={styles.forcaSvg}>
+          <line x1="10" y1="230" x2="150" y2="230" />
+          <line x1="50" y1="230" x2="50" y2="20" />
+          <line x1="50" y1="20" x2="120" y2="20" />
+          <line x1="120" y1="20" x2="120" y2="50" />
 
-      {/* Substitua o formulário de input pelo componente de botões */}
-      <Letras onGuess={handleGuess} guessedLetters={guessedLetters} />
+          {letrasErradas.length > 0 && (
+            <circle cx="120" cy="70" r="20" className={styles.bonecoParte} />
+          )}
+          {letrasErradas.length > 1 && (
+            <line
+              x1="120"
+              y1="90"
+              x2="120"
+              y2="150"
+              className={styles.bonecoParte}
+            />
+          )}
+          {letrasErradas.length > 2 && (
+            <line
+              x1="120"
+              y1="110"
+              x2="90"
+              y2="130"
+              className={styles.bonecoParte}
+            />
+          )}
+          {letrasErradas.length > 3 && (
+            <line
+              x1="120"
+              y1="110"
+              x2="150"
+              y2="130"
+              className={styles.bonecoParte}
+            />
+          )}
+          {letrasErradas.length > 4 && (
+            <line
+              x1="120"
+              y1="150"
+              x2="90"
+              y2="180"
+              className={styles.bonecoParte}
+            />
+          )}
+          {letrasErradas.length > 5 && (
+            <line
+              x1="120"
+              y1="150"
+              x2="150"
+              y2="180"
+              className={styles.bonecoParte}
+            />
+          )}
+        </svg>
+      </div>
 
-      <p className="letras-chutadas">
-        Letras Chutadas: <span>{guessedLetters.join(", ")}</span>
-      </p>
-      {gameOver && (
-        <div className="mensagem-final">
-          <h3
-            className={
-              word
-                .toLowerCase()
-                .split("")
-                .every((l) => guessedLetters.includes(l.toLowerCase()))
-                ? "vitoria"
-                : "derrota"
-            }
-          >
-            {word
-              .toLowerCase()
-              .split("")
-              .every((l) => guessedLetters.includes(l.toLowerCase()))
-              ? "Parabéns! Você ganhou!"
-              : `Você perdeu! A palavra era "${word}".`}
-          </h3>
-          <button onClick={handleRestart} className="btn-reiniciar">
-            Reiniciar
+      <p className={styles.palavra}>{palavraExibida}</p>
+
+      {jogoFinalizado ? (
+        <div className={styles.mensagemFinal}>
+          <p>{mensagem}</p>
+          <button onClick={iniciarNovoJogo} className={styles.botao}>
+            Jogar Novamente
           </button>
         </div>
+      ) : (
+        // 3. SEU COMPONENTE FOI ADICIONADO AQUI
+        <Letras
+          onGuess={handleTentativa}
+          guessedLetters={[...letrasAdivinhadas, ...letrasErradas]}
+        />
       )}
-    </>
-  );
-};
 
-export default Forca;
+      <div className={styles.infoJogo}>
+        <p>Letras erradas: {letrasErradas.join(", ")}</p>
+        <p>Tentativas restantes: {MAX_ERROS - letrasErradas.length}</p>
+      </div>
+    </div>
+  );
+}

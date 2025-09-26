@@ -1,4 +1,4 @@
-import Forca from "@/components/forca";
+import Forca from "@/components/Forca";
 
 export default function ForcaPage() {
   return (
